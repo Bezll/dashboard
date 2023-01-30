@@ -16,6 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import LiquorIcon from "@mui/icons-material/Liquor";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
 	const theme = useTheme();
@@ -187,6 +188,13 @@ const Sidebar = () => {
 							title="Calendar"
 							to="/calendar"
 							icon={<CalendarTodayOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
+						<Item
+							title="Drink Monitor"
+							to="/drinkApp"
+							icon={<LiquorIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
