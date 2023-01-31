@@ -1,6 +1,7 @@
 import Header from "../../components/Header";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import dayjs from "dayjs";
+import DateRangeDisplay from "./DateRangeDisplay";
 import * as yup from "yup";
 import { useState } from "react";
 import { Formik } from "formik";
@@ -42,229 +43,164 @@ const DrinkApp = () => {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	const [value, setValue] = useState(null);
-	const [value2, setValue2] = useState(null);
-	const [value3, setValue3] = useState(null);
 
 	const handleFormSubmit = (values) => {
 		console.log(values);
 	};
 
 	return (
-		<Box m="20px">
-			<Header
-				title="Drink Monitor"
-				subtitle="App to monitor alcohol consumption"
-			/>
-			<Formik
-				onSubmit={handleFormSubmit}
-				initialValues={initialValues}
-				validationSchema={userSchema}
-			>
-				{({
-					values,
-					errors,
-					touched,
-					handleBlur,
-					handleChange,
-					handleSubmit,
-				}) => (
-					<form onSubmit={handleSubmit}>
-						<Box
-							display="grid"
-							gap="30px"
-							gridTemplateColumns="repeat(6, minmax(0, 1fr))"
-							sx={{
-								"& > div": {
-									gridColumn: isNonMobile
-										? undefined
-										: "span 6",
-								},
-							}}
-						>
-							{/* ADD DRINK  */}
-							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<DatePicker
-									inputFormat="DD.MM.YYYY"
-									label="Add Drink"
-									value={value ?? values.addDrink}
-									onChange={(newValue) => {
-										setValue(newValue);
-									}}
-									name="addDrink"
-									onBlur={handleBlur}
-									renderInput={(params) => (
-										<TextField
-											fullWidth
-											variant="filled"
-											error={
-												!!touched.addDrink &&
-												!!errors.addDrink
-											}
-											helperText={
-												touched.addDrink &&
-												errors.addDrink
-											}
-											sx={{
-												gridColumn: "3 / span 2",
-											}}
-											{...params}
-										/>
-									)}
-								/>
-							</LocalizationProvider>
-							{/* AMOUNT  */}
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Amount Consumed in ML"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.amount}
-								name="amount"
-								error={!!touched.amount && !!errors.amount}
-								helperText={touched.amount && errors.amount}
+		<Box>
+			<Box m="20px">
+				<Header
+					title="Drink Monitor"
+					subtitle="App to monitor alcohol consumption"
+				/>
+				<Formik
+					onSubmit={handleFormSubmit}
+					initialValues={initialValues}
+					validationSchema={userSchema}
+				>
+					{({
+						values,
+						errors,
+						touched,
+						handleBlur,
+						handleChange,
+						handleSubmit,
+					}) => (
+						<form onSubmit={handleSubmit}>
+							<Box
+								display="grid"
+								gap="30px"
+								gridTemplateColumns="repeat(6, minmax(0, 1fr))"
 								sx={{
-									gridColumn: "3 / span 2",
+									"& > div": {
+										gridColumn: isNonMobile
+											? undefined
+											: "span 6",
+									},
 								}}
-							/>
-							{/* DRINK TYPE RADIO */}
-							<FormControl
-								sx={{ gridColumn: "3 / span 2" }}
-								align="center"
 							>
-								<FormLabel
-									id="demo-radio-buttons-group-label"
-									sx={{
-										display: "inline-block",
-										backgroundColor:
-											colors.greenAccent[500],
-									}}
+								{/* ADD DRINK  */}
+								<LocalizationProvider
+									dateAdapter={AdapterDayjs}
 								>
-									Drink Type
-								</FormLabel>
-								<RadioGroup
-									row
-									aria-labelledby="demo-radio-buttons-group-label"
-									name="drinkType"
+									<DatePicker
+										inputFormat="DD.MM.YYYY"
+										label="Add Drink"
+										value={value ?? values.addDrink}
+										onChange={(newValue) => {
+											setValue(newValue);
+										}}
+										name="addDrink"
+										onBlur={handleBlur}
+										renderInput={(params) => (
+											<TextField
+												fullWidth
+												variant="filled"
+												error={
+													!!touched.addDrink &&
+													!!errors.addDrink
+												}
+												helperText={
+													touched.addDrink &&
+													errors.addDrink
+												}
+												sx={{
+													gridColumn: "3 / span 2",
+												}}
+												{...params}
+											/>
+										)}
+									/>
+								</LocalizationProvider>
+								{/* AMOUNT  */}
+								<TextField
+									fullWidth
+									variant="filled"
+									type="text"
+									label="Amount Consumed in ML"
 									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.amount}
+									name="amount"
+									error={!!touched.amount && !!errors.amount}
+									helperText={touched.amount && errors.amount}
 									sx={{
-										display: "inline-block",
-										backgroundColor:
-											colors.greenAccent[500],
+										gridColumn: "3 / span 2",
 									}}
+								/>
+								{/* DRINK TYPE RADIO */}
+								<FormControl
+									sx={{ gridColumn: "3 / span 2" }}
+									align="center"
 								>
-									<FormControlLabel
-										value="beer"
-										control={<Radio />}
-										label="Beer"
-									/>
-									<FormControlLabel
-										value="spirts"
-										control={<Radio />}
-										label="Sprirts"
-									/>
-									<FormControlLabel
-										value="wine"
-										control={<Radio />}
-										label="Wine"
-									/>
-								</RadioGroup>
-							</FormControl>
-							{/* SUBMIT BUTTON  */}
-							<Box
-								display="flex"
-								justifyContent="center"
-								sx={{ gridColumn: "3 / span 2" }}
-							>
-								<Button
-									type="submit"
-									color="secondary"
-									varient="contained"
+									<FormLabel
+										id="demo-radio-buttons-group-label"
+										sx={{
+											display: "inline-block",
+											backgroundColor:
+												colors.greenAccent[500],
+										}}
+									>
+										Drink Type
+									</FormLabel>
+									<RadioGroup
+										row
+										aria-labelledby="demo-radio-buttons-group-label"
+										name="drinkType"
+										onBlur={handleBlur}
+										onChange={handleChange}
+										sx={{
+											display: "inline-block",
+											backgroundColor:
+												colors.greenAccent[500],
+										}}
+									>
+										<FormControlLabel
+											value="beer"
+											control={<Radio />}
+											label="Beer"
+										/>
+										<FormControlLabel
+											value="spirts"
+											control={<Radio />}
+											label="Sprirts"
+										/>
+										<FormControlLabel
+											value="wine"
+											control={<Radio />}
+											label="Wine"
+										/>
+									</RadioGroup>
+								</FormControl>
+								{/* SUBMIT BUTTON  */}
+								<Box
+									display="flex"
+									justifyContent="center"
+									sx={{ gridColumn: "3 / span 2" }}
 								>
-									Submit
-								</Button>
+									<Button
+										type="submit"
+										color="secondary"
+										varient="contained"
+									>
+										Submit
+									</Button>
+								</Box>
 							</Box>
-							{/* DATE FROM */}
-							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<DatePicker
-									inputFormat="DD.MM.YYYY"
-									label="From"
-									value={value2}
-									onChange={(newValue2) => {
-										setValue2(newValue2);
-									}}
-									renderInput={(params) => (
-										<TextField
-											fullWidth
-											variant="filled"
-											type="date"
-											value={values.dateFrom}
-											onBlur={handleBlur}
-											onChange={handleChange}
-											name="dateFrom"
-											error={
-												!!touched.dateFrom &&
-												!!errors.dateFrom
-											}
-											helperText={
-												touched.dateFrom &&
-												errors.dateFrom
-											}
-											sx={{
-												gridColumn: "3 / span 2",
-											}}
-											{...params}
-										/>
-									)}
-								/>
-							</LocalizationProvider>
-							{/* DATE TO */}
-							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<DatePicker
-									inputFormat="DD.MM.YYYY"
-									label="To"
-									value={value3}
-									onChange={(newValue3) => {
-										setValue3(newValue3);
-									}}
-									renderInput={(params) => (
-										<TextField
-											fullWidth
-											variant="filled"
-											type="date"
-											value={values.dateTo}
-											onBlur={handleBlur}
-											onChange={handleChange}
-											name="dateTo"
-											error={
-												!!touched.dateTo &&
-												!!errors.dateTo
-											}
-											helperText={
-												touched.dateTo && errors.dateTo
-											}
-											sx={{
-												gridColumn: "3 / span 2",
-											}}
-											{...params}
-										/>
-									)}
-								/>
-							</LocalizationProvider>
-						</Box>
-					</form>
-				)}
-			</Formik>
+						</form>
+					)}
+				</Formik>
+			</Box>
+			<DateRangeDisplay />
 		</Box>
 	);
 };
 
 export default DrinkApp;
 
-{
-	/* <TextField
+/* <TextField
 fullWidth
 variant="filled"
 type="date"
@@ -277,4 +213,3 @@ error={!!touched.dateTo && !!errors.dateTo}
 helperText={touched.dateTo && errors.dateTo}
 sx={{ gridColumn: "3 / span 2" }}
 /> */
-}
