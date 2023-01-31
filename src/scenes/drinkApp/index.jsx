@@ -1,9 +1,13 @@
 import Header from "../../components/Header";
-import { tokens } from "../../theme";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import dayjs from "dayjs";
+import * as yup from "yup";
 import { useState } from "react";
+import { Formik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { tokens } from "../../theme";
 import {
 	Box,
 	Button,
@@ -13,26 +17,28 @@ import {
 	RadioGroup,
 	FormControlLabel,
 	Radio,
+	useTheme,
 } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 const initialValues = {
-	addDrink: "",
+	addDrink: dayjs(new Date()),
 	amount: 0,
-	dateFrom: "",
-	dateTo: "",
+	drinkType: "",
+	dateFrom: dayjs(new Date()),
+	dateTo: dayjs(new Date()),
 };
 
 const userSchema = yup.object().shape({
 	addDrink: yup.date().required("required"),
 	amount: yup.number().required("required"),
-	dateFrom: yup.string(),
-	dateTo: yup.string(),
+	drinkType: yup.string().required("required"),
+	dateFrom: yup.date(),
+	dateTo: yup.date(),
 });
 
 const DrinkApp = () => {
+	const theme = useTheme();
+	const colors = tokens(theme.palette.mode);
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 
 	const [value, setValue] = useState(null);
@@ -45,7 +51,10 @@ const DrinkApp = () => {
 
 	return (
 		<Box m="20px">
-			<Header title="Drink Monitor" subtitle="App to record drinks" />
+			<Header
+				title="Drink Monitor"
+				subtitle="App to monitor alcohol consumption"
+			/>
 			<Formik
 				onSubmit={handleFormSubmit}
 				initialValues={initialValues}
@@ -72,25 +81,21 @@ const DrinkApp = () => {
 								},
 							}}
 						>
+							{/* ADD DRINK  */}
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DatePicker
-									sx={{
-										gridColumn: "3 / span 2",
-									}}
+									inputFormat="DD.MM.YYYY"
 									label="Add Drink"
-									value={value}
+									value={value ?? values.addDrink}
 									onChange={(newValue) => {
 										setValue(newValue);
 									}}
+									name="addDrink"
+									onBlur={handleBlur}
 									renderInput={(params) => (
 										<TextField
 											fullWidth
 											variant="filled"
-											type="date"
-											value={values.addDrink}
-											onBlur={handleBlur}
-											onChange={handleChange}
-											name="addDrink"
 											error={
 												!!touched.addDrink &&
 												!!errors.addDrink
@@ -107,28 +112,12 @@ const DrinkApp = () => {
 									)}
 								/>
 							</LocalizationProvider>
-
-							{/* <TextField
-								fullWidth
-								variant="filled"
-								type="date"
-								label="Add Drink"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.addDrink}
-								name="addDrink"
-								error={!!touched.addDrink && !!errors.addDrink}
-								helperText={touched.addDrink && errors.addDrink}
-								sx={{
-									gridColumn: "3 / span 2",
-								}}
-							/> */}
-
+							{/* AMOUNT  */}
 							<TextField
 								fullWidth
 								variant="filled"
 								type="text"
-								label="Amount - ml"
+								label="Amount Consumed in ML"
 								onBlur={handleBlur}
 								onChange={handleChange}
 								value={values.amount}
@@ -139,20 +128,31 @@ const DrinkApp = () => {
 									gridColumn: "3 / span 2",
 								}}
 							/>
+							{/* DRINK TYPE RADIO */}
 							<FormControl
-								sx={{ gridColumn: "span 6" }}
+								sx={{ gridColumn: "3 / span 2" }}
 								align="center"
 							>
-								<FormLabel id="demo-radio-buttons-group-label">
+								<FormLabel
+									id="demo-radio-buttons-group-label"
+									sx={{
+										display: "inline-block",
+										backgroundColor:
+											colors.greenAccent[500],
+									}}
+								>
 									Drink Type
 								</FormLabel>
 								<RadioGroup
 									row
 									aria-labelledby="demo-radio-buttons-group-label"
-									name="radio-buttons-group"
+									name="drinkType"
+									onBlur={handleBlur}
+									onChange={handleChange}
 									sx={{
-										gridColumn: "span 6",
 										display: "inline-block",
+										backgroundColor:
+											colors.greenAccent[500],
 									}}
 								>
 									<FormControlLabel
@@ -172,6 +172,7 @@ const DrinkApp = () => {
 									/>
 								</RadioGroup>
 							</FormControl>
+							{/* SUBMIT BUTTON  */}
 							<Box
 								display="flex"
 								justifyContent="center"
@@ -185,11 +186,10 @@ const DrinkApp = () => {
 									Submit
 								</Button>
 							</Box>
+							{/* DATE FROM */}
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DatePicker
-									sx={{
-										gridColumn: "3 / span 2",
-									}}
+									inputFormat="DD.MM.YYYY"
 									label="From"
 									value={value2}
 									onChange={(newValue2) => {
@@ -220,11 +220,10 @@ const DrinkApp = () => {
 									)}
 								/>
 							</LocalizationProvider>
+							{/* DATE TO */}
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DatePicker
-									sx={{
-										gridColumn: "3 / span 2",
-									}}
+									inputFormat="DD.MM.YYYY"
 									label="To"
 									value={value3}
 									onChange={(newValue3) => {
@@ -254,32 +253,6 @@ const DrinkApp = () => {
 									)}
 								/>
 							</LocalizationProvider>
-							{/* <TextField
-								fullWidth
-								variant="filled"
-								type="date"
-								label="Date From"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.dateFrom}
-								name="dateFrom"
-								error={!!touched.dateFrom && !!errors.dateFrom}
-								helperText={touched.dateFrom && errors.dateFrom}
-								sx={{ gridColumn: "3 / span 2" }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="date"
-								label="Date To"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.dateTo}
-								name="dateTo"
-								error={!!touched.dateTo && !!errors.dateTo}
-								helperText={touched.dateTo && errors.dateTo}
-								sx={{ gridColumn: "3 / span 2" }}
-							/> */}
 						</Box>
 					</form>
 				)}
@@ -289,3 +262,19 @@ const DrinkApp = () => {
 };
 
 export default DrinkApp;
+
+{
+	/* <TextField
+fullWidth
+variant="filled"
+type="date"
+label="Date To"
+onBlur={handleBlur}
+onChange={handleChange}
+value={values.dateTo}
+name="dateTo"
+error={!!touched.dateTo && !!errors.dateTo}
+helperText={touched.dateTo && errors.dateTo}
+sx={{ gridColumn: "3 / span 2" }}
+/> */
+}

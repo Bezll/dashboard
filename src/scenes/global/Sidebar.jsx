@@ -84,7 +84,7 @@ const Sidebar = () => {
 									variant="h3"
 									color={colors.grey[100]}
 								>
-									ADMINOOPA
+									Portfolio
 								</Typography>
 								<IconButton
 									onClick={() => setIsCollapsed(!isCollapsed)}
@@ -126,7 +126,7 @@ const Sidebar = () => {
 									variant="h5"
 									color={colors.greenAccent[500]}
 								>
-									VP Fancy Admin
+									System Administrator
 								</Typography>
 							</Box>
 						</Box>
