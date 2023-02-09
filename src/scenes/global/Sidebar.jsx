@@ -52,6 +52,7 @@ const Sidebar = () => {
 				sx={{
 					"& .pro-sidebar-inner": {
 						background: `${colors.primary[400]} !important`,
+						paddingBottom: "32vh",
 					},
 					"& .pro-icon-wrapper": {
 						backgroundColor: "transparent !important",

@@ -89,6 +89,7 @@ const DrinkApp = () => {
 										inputFormat="DD.MM.YYYY"
 										label="Add Drink"
 										value={value ?? values.addDrink}
+										disableFuture
 										onChange={(newValue) => {
 											setValue(newValue);
 										}}
@@ -107,7 +108,7 @@ const DrinkApp = () => {
 													errors.addDrink
 												}
 												sx={{
-													gridColumn: "3 / span 2",
+													gridColumn: "1 / span 3",
 												}}
 												{...params}
 											/>
@@ -127,12 +128,12 @@ const DrinkApp = () => {
 									error={!!touched.amount && !!errors.amount}
 									helperText={touched.amount && errors.amount}
 									sx={{
-										gridColumn: "3 / span 2",
+										gridColumn: "1 / span 3",
 									}}
 								/>
 								{/* DRINK TYPE RADIO */}
 								<FormControl
-									sx={{ gridColumn: "3 / span 2" }}
+									sx={{ gridColumn: "1 / span 3" }}
 									align="center"
 								>
 									<FormLabel
@@ -178,7 +179,7 @@ const DrinkApp = () => {
 								<Box
 									display="flex"
 									justifyContent="center"
-									sx={{ gridColumn: "3 / span 2" }}
+									sx={{ gridColumn: "1 / span 3" }}
 								>
 									<Button
 										type="submit"

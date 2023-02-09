@@ -5,10 +5,13 @@ import { Formik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import * as yup from "yup";
 import dayjs from "dayjs";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import BarChart from "../../components/BarChart";
 
 const initialValues = {
 	dateFrom: dayjs(new Date()),
@@ -33,7 +36,7 @@ const DateRangeDisplay = () => {
 	};
 
 	return (
-		<Box>
+		<Box m="20px">
 			<Box>
 				<Formik
 					onSubmit={handleFormSubmit}
@@ -90,7 +93,7 @@ const DateRangeDisplay = () => {
 													errors.dateFrom
 												}
 												sx={{
-													gridColumn: "3 / span 2",
+													gridColumn: "1 / span 3",
 												}}
 												{...params}
 											/>
@@ -126,7 +129,7 @@ const DateRangeDisplay = () => {
 													errors.dateTo
 												}
 												sx={{
-													gridColumn: "3 / span 2",
+													gridColumn: "1 / span 3",
 												}}
 												{...params}
 											/>
@@ -137,7 +140,7 @@ const DateRangeDisplay = () => {
 								<Box
 									display="flex"
 									justifyContent="center"
-									sx={{ gridColumn: "3 / span 2" }}
+									sx={{ gridColumn: "1 / span 3" }}
 								>
 									<Button
 										type="submit"
@@ -152,31 +155,109 @@ const DateRangeDisplay = () => {
 					)}
 				</Formik>
 			</Box>
-			{/* PROGRESS */}
+			{/* PROGRESS 1*/}
 			<Box
-				gridColumn="span 4"
-				gridRow="span 2"
-				backgroundColor={colors.primary[400]}
-				p="30px"
+				display="grid"
+				gridTemplateColumns="repeat(6, 1fr)"
+				gridAutoRows="140px"
+				gap="20px"
 			>
-				<Typography variant="h5" fontWeight="600">
-					Drinks By Date Range
-				</Typography>
 				<Box
-					display="flex"
-					flexDirection="column"
-					alignItems="center"
-					mt="25px"
+					gridRow="span 2"
+					backgroundColor={colors.primary[400]}
+					p="30px"
 				>
-					<ProgressCircle size="125" />
-					<Typography
-						variant="h5"
-						color={colors.greenAccent[500]}
-						sx={{ mt: "15px" }}
-					>
-						This month you have had 6 drinks
+					<Typography variant="h5" fontWeight="600">
+						Drinks By Date Range
 					</Typography>
-					<Typography>This is 60% of your monthly target</Typography>
+					<Box
+						display="flex"
+						flexDirection="column"
+						alignItems="center"
+						mt="25px"
+					>
+						<ProgressCircle size="125" />
+						<Typography
+							variant="h5"
+							color={colors.greenAccent[500]}
+							sx={{ mt: "15px" }}
+						>
+							This month you have had 6 drinks
+						</Typography>
+						<Typography>
+							This is 60% of your monthly target
+						</Typography>
+					</Box>
+				</Box>
+
+				{/* PROGRESS 2*/}
+				<Box
+					gridRow="span 2"
+					backgroundColor={colors.primary[400]}
+					p="30px"
+				>
+					<Typography variant="h5" fontWeight="600">
+						Drinks By Year
+					</Typography>
+					<Box height="250px" mt="-20px">
+						<BarChart isDashboard={true} />
+					</Box>
+				</Box>
+				{/* PROGRESS 3*/}
+				<Box
+					gridRow="span 1"
+					gridColumn="3"
+					backgroundColor={colors.primary[400]}
+					p="30px"
+				>
+					<Box
+						display="flex"
+						flexDirection="column"
+						alignItems="center"
+					>
+						<StatBox
+							title="Recommended Limits"
+							subtitle="The Government Recomends No More Than 20 Drinks Per Month"
+							progress="0.30"
+							increase="+30%"
+							icon={
+								<PersonAddIcon
+									sx={{
+										color: colors.greenAccent[600],
+										fontSize: "26px",
+									}}
+								/>
+							}
+						/>
+					</Box>
+				</Box>
+				{/* PROGRESS 4*/}
+				<Box
+					gridColumn="3"
+					gridRow="span 1"
+					backgroundColor={colors.primary[400]}
+					p="30px"
+				>
+					<Box
+						display="flex"
+						flexDirection="column"
+						alignItems="center"
+					>
+						<StatBox
+							title="Comparrison To Yearly Average"
+							subtitle="Your Yearly Average is 12 Drinks Per Month"
+							progress="0.50"
+							increase="+50%"
+							icon={
+								<PersonAddIcon
+									sx={{
+										color: colors.greenAccent[600],
+										fontSize: "26px",
+									}}
+								/>
+							}
+						/>
+					</Box>
 				</Box>
 			</Box>
 		</Box>
